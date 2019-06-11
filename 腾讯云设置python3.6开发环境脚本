@@ -1,0 +1,36 @@
+#1、CentOS安装Python的依赖包
+yum groupinstall "Development tools"
+yum install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel
+
+#2、下载Python3X的源码包并编译
+cd /home/
+wget https://www.python.org/ftp/python/3.6.1/Python-3.6.1.tgz
+tar -zxvf Python-3.6.1.tgz 
+cd Python-3.6.1
+./configure --prefix=/usr/local/python36
+yum -y install zlib* openssl-devel
+make && make install
+
+#3、把#! /usr/bin/python修改为#! /usr/bin/python2
+sed -i 's/#!\/usr\/bin\/python/#!\/usr\/bin\/python2.6/' /usr/bin/yum
+#（可选）sed  -i    's/\#\! \/usr\/bin\/python/\#\! \/usr\/bin\/python2/'   /usr/libexec/urlgrabber-ext-down
+
+#4、把/usr/bin/下的python2替换成python3
+mv /usr/bin/python /usr/bin/pythonold
+cp /usr/local/python36/bin/python3.6 /usr/bin/python
+cp /usr/local/python36/bin/pip3 /usr/bin/pip3
+
+
+#5、下载node
+cd /home/
+wget https://nodejs.org/dist/v8.11.4/node-v8.11.4-linux-x64.tar.xz
+
+#6、安装node,如有需要，设置环境变量：export EXECJS_RUNTIME=/usr/local/node
+tar xvf node-v8.11.4-linux-x64.tar.xz
+mv node-v8.11.4-linux-x64 node-v8.11.4
+
+
+#7、设置软链接
+ln -s /home/node-v8.11.4/bin/node /usr/local/bin/node
+ln -s /home/node-v8.11.4/bin/npm /usr/local/bin/npm
+
